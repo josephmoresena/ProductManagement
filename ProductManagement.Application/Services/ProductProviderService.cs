@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,6 +12,7 @@ using ProductManagement.Objects;
 
 namespace ProductManagement.Services
 {
+    [ExcludeFromCodeCoverage]
     public sealed class ProductProviderService : IProductProviderService
     {
         private readonly IMapper _mapper;

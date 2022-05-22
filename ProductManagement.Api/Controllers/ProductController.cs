@@ -30,7 +30,7 @@ namespace ProductManagement.Controllers
         public Task<ActionResult<Int32>> CreateAsync([FromBody] ProductSave product, CancellationToken cancellationToken)
             => base.ExecuteAsync(async () =>
             {
-                Product result = await this._service.SaveProductAsync(product, cancellationToken);
+                Product result = await this._service.SaveAsync(product, cancellationToken);
                 return result.Id;
             });
 
@@ -40,7 +40,7 @@ namespace ProductManagement.Controllers
             IMutableWrapper<Boolean> setHeaders = InputValue.CreateReference(true);
             IMutableWrapper<Int32> currentPageHeader = GetCurrentPage(page);
             IMutableWrapper<Int32> totalPageHeader = InputValue.CreateReference(0);
-            await foreach (ProductRead productRead in this._service.GetProductsAsync(currentPageHeader, totalPageHeader, filter, cancellationToken)
+            await foreach (ProductRead productRead in this._service.GetAllAsync(currentPageHeader, totalPageHeader, filter, cancellationToken)
                 .WithCancellation(cancellationToken))
             {
                 base.SetPaginationHeaders(setHeaders, currentPageHeader, totalPageHeader);
@@ -50,10 +50,10 @@ namespace ProductManagement.Controllers
 
         [HttpGet("{code}")]
         public Task<ActionResult<ProductRead>> GetProductAsync([FromRoute] Int32 code, CancellationToken cancellationToken)
-            => base.ExecuteAsync(() => this._service.GetProductAsync(code, cancellationToken));
+            => base.ExecuteAsync(() => this._service.GetAsync(code, cancellationToken));
 
         [HttpPut("{code}")]
         public Task<ActionResult> UpdateProductAsync([FromRoute] Int32 code, [FromBody] ProductSave product, CancellationToken cancellationToken)
-            => base.ExecuteAsync(() => this._service.SaveProductAsync(code, product, cancellationToken));
+            => base.ExecuteAsync(() => this._service.SaveAsync(code, product, cancellationToken));
     }
 }

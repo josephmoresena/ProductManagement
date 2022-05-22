@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ProductManagement.Infrastructure.Migrations
 {
+    [ExcludeFromCodeCoverage]
     public partial class @new : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

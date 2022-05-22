@@ -47,7 +47,7 @@ namespace ProductManagement.Infrastructure.Repositories
         }
 
         Task<Product> IProductRepository.GetAsync(Int32 productId, CancellationToken cancelationToken)
-            => this._dbContext.Products.FirstOrDefaultAsync(p => p.Id.Equals(productId), cancelationToken);
+            => this._dbContext.Products.AsNoTracking().FirstOrDefaultAsync(p => p.Id.Equals(productId), cancelationToken);
 
         Task<TDto> IProductRepository.GetAsync<TDto>(Int32 productId, CancellationToken cancelationToken)
             => this._dbContext.Products.Where(p => p.Id.Equals(productId))
