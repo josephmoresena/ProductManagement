@@ -37,7 +37,6 @@ namespace ProductManagement.Services
             await this._repostory.UpdateAsync(product, cancelationToken);
         }
 
-
         async Task<ProductRead> IProductService<ProductRead, ProductSave, ProductFilter>.GetAsync(Int32 productId, CancellationToken cancelationToken)
             => await this._repostory.GetAsync<ProductRead>(productId, cancelationToken) ?? throw GetInvalidProductException(productId);
 

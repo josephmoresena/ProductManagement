@@ -10,13 +10,14 @@ using ProductManagement.Interfaces;
 using ProductManagement.Objects;
 using ProductManagement.Services;
 
-namespace ProductManagement.UnitTests.Service.ProductServiceTest
+namespace ProductManagement.UnitTests.Services.ProductServiceTest
 {
     [ExcludeFromCodeCoverage]
     public abstract class ProductServiceTestBase
     {
-        protected static Fixture fixture = new();
-        protected Mock<IMapper> _mapper = new();
+        protected static readonly Fixture fixture = new();
+
+        protected readonly Mock<IMapper> _mapper = new();
         protected readonly Mock<IProductRepository> _repostory = new();
         protected readonly PaginationSettings _pagination = fixture.Create<PaginationSettings>();
 

@@ -16,7 +16,7 @@ using Rxmxnx.PInvoke.Extensions;
 
 using Xunit;
 
-namespace ProductManagement.UnitTests.Service.ProductServiceTest
+namespace ProductManagement.UnitTests.Services.ProductServiceTest
 {
     [ExcludeFromCodeCoverage]
     public sealed class GetAllAsyncTest : ProductServiceTestBase

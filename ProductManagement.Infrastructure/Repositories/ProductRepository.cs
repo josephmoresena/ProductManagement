@@ -6,7 +6,6 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -37,22 +36,20 @@ namespace ProductManagement.Infrastructure.Repositories
             return product.Id;
         }
 
-        async IAsyncEnumerable<TDto> IProductRepository.GetAllAsync<TDto>(LimitSettings settings, [EnumeratorCancellation] CancellationToken cancelationToken, ProductFilter filter)
+        async IAsyncEnumerable<TRead> IProductRepository.GetAllAsync<TRead>(LimitSettings settings, [EnumeratorCancellation] CancellationToken cancelationToken, ProductFilter filter)
         {
-            await foreach (TDto dto in this._dbContext.Products
-                .Filter(filter).OrderBy(p => p.Id).Limit(settings)
-                .ProjectTo<TDto>(this._mapper.ConfigurationProvider)
+            await foreach (TRead read in this._mapper.ProjectTo<TRead>(this._dbContext.Products
+                .Filter(filter).OrderBy(p => p.Id).Limit(settings))
                 .AsAsyncEnumerable().WithCancellation(cancelationToken))
-                yield return dto;
+                yield return read;
         }
 
         Task<Product> IProductRepository.GetAsync(Int32 productId, CancellationToken cancelationToken)
             => this._dbContext.Products.AsNoTracking().FirstOrDefaultAsync(p => p.Id.Equals(productId), cancelationToken);
 
-        Task<TDto> IProductRepository.GetAsync<TDto>(Int32 productId, CancellationToken cancelationToken)
-            => this._dbContext.Products.Where(p => p.Id.Equals(productId))
-            .ProjectTo<TDto>(this._mapper.ConfigurationProvider).FirstOrDefaultAsync();
-
+        Task<TRead> IProductRepository.GetAsync<TRead>(Int32 productId, CancellationToken cancelationToken)
+            => this._mapper.ProjectTo<TRead>(this._dbContext.Products.Where(p => p.Id.Equals(productId)))
+            .FirstOrDefaultAsync();
 
         async Task IProductRepository.UpdateAsync(Product product, CancellationToken cancelationToken)
         {

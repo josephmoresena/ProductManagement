@@ -13,7 +13,7 @@ using ProductManagement.Objects;
 
 using Xunit;
 
-namespace ProductManagement.UnitTests.Service.ProductServiceTest
+namespace ProductManagement.UnitTests.Services.ProductServiceTest
 {
     [ExcludeFromCodeCoverage]
     public sealed class SaveAsyncTest : ProductServiceTestBase
