@@ -13,5 +13,14 @@ namespace ProductManagement.Infrastructure
         public DbSet<ProductProvider> Providers => this.Set<ProductProvider>();
 
         public ProductManagementDbContext(DbContextOptions options) : base(options) { }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Product>()
+                .HasIndex(p => p.Active)
+                .IsUnique(false);
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
